@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from "react";
 import { createRoot } from "react-dom/client";
 import { GoogleGenAI } from "@google/genai";
@@ -888,11 +887,11 @@ const App = () => {
             <table className="w-full text-left text-sm">
               <thead className="bg-slate-50 dark:bg-slate-950/50 text-slate-500 dark:text-slate-400 font-medium border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="px-4 py-3 whitespace-nowrap">Date</th>
-                  <th className="px-4 py-3">Titre & Lieu</th>
-                  <th className="px-4 py-3 hidden md:table-cell">Prix</th>
-                  <th className="px-4 py-3 hidden lg:table-cell">Tags</th>
-                  <th className="px-4 py-3 text-right">Actions</th>
+                  <th className="px-4 py-3 w-[45%]">Titre & Lieu</th>
+                  <th className="px-4 py-3 w-[25%]">Date</th>
+                  <th className="px-4 py-3 w-[10%] hidden md:table-cell">Prix</th>
+                  <th className="px-4 py-3 w-[10%] hidden lg:table-cell">Tags</th>
+                  <th className="px-4 py-3 w-[10%] text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -901,15 +900,15 @@ const App = () => {
                   
                   return (
                     <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
-                      <td className="px-4 py-3 font-medium text-indigo-600 dark:text-indigo-400 whitespace-nowrap align-top">
-                        {evt.date}
-                      </td>
-                      <td className="px-4 py-3 align-top max-w-xs md:max-w-md">
+                      <td className="px-4 py-3 align-top">
                         <div className="font-semibold text-slate-900 dark:text-slate-200 mb-1">{evt.title}</div>
                         <div className="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-xs">
                           <MapPin className="w-3 h-3" />
                           {evt.location}
                         </div>
+                      </td>
+                      <td className="px-4 py-3 font-medium text-indigo-600 dark:text-indigo-400 align-top">
+                        {evt.date}
                       </td>
                       <td className="px-4 py-3 hidden md:table-cell align-top">
                         <span className={`inline-flex text-xs px-2 py-0.5 rounded-full border ${
