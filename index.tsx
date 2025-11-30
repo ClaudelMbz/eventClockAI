@@ -541,21 +541,27 @@ const App = () => {
   const downloadCSV = (eventsToExport: EventItem[], filenamePrefix: string = "event_clock_export") => {
     if (!eventsToExport || eventsToExport.length === 0) return;
 
+    // Use semicolon for Excel France compatibility
+    const separator = ";";
     const headers = ["Date", "Titre", "Lieu", "Prix", "Catégorie", "Description", "URL"];
-    const csvContent = [
-      headers.join(","),
-      ...eventsToExport.map((e) =>
-        [
-          `"${e.date.replace(/"/g, '""')}"`,
-          `"${e.title.replace(/"/g, '""')}"`,
-          `"${e.location.replace(/"/g, '""')}"`,
-          `"${e.price.replace(/"/g, '""')}"`,
-          `"${e.tags.join(" - ")}"`,
-          `"${e.description.replace(/"/g, '""')}"`,
-          `"${e.url}"`,
-        ].join(",")
-      ),
-    ].join("\n");
+    
+    // Helper to safely quote strings and handle existing quotes
+    const escape = (str: string) => `"${(str || "").replace(/"/g, '""')}"`;
+
+    const rows = eventsToExport.map((e) =>
+      [
+        escape(e.date),
+        escape(e.title),
+        escape(e.location),
+        escape(e.price),
+        escape((e.tags || []).join(" - ")),
+        escape(e.description),
+        escape(e.url),
+      ].join(separator)
+    );
+
+    // Add Byte Order Mark (BOM) \uFEFF so Excel recognizes it as UTF-8 (fixes black diamonds)
+    const csvContent = "\uFEFF" + [headers.join(separator), ...rows].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
